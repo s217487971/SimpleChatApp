@@ -30,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 //import android.net.*;
 
@@ -95,11 +96,11 @@ public class CreateContact extends AppCompatActivity {
                 }
                 else
                 {
-                    /**Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
-                    if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-                        sendTakePictureIntent();
-                    }
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    //if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+                       // sendTakePictureIntent();
+                    //}
                 }
             }
         };
@@ -167,7 +168,7 @@ public class CreateContact extends AppCompatActivity {
         galleryIntent.setData(picUri);
         this.sendBroadcast(galleryIntent);
     }
-    @Override
+    /**@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PICTURE_CAPTURE && resultCode == RESULT_OK) {
             File imgFile = new  File(pictureFilePath);
@@ -175,16 +176,17 @@ public class CreateContact extends AppCompatActivity {
                 imageView.setImageURI(Uri.fromFile(imgFile));
             }
         }
-    }
-    /**@Override
+    }*/
+   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        /**if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
         {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+            storeImage(photo);
         }
-        if (requestCode == CAMERA_REQUEST) {
+        /**if (requestCode == CAMERA_REQUEST) {
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
             //imageView.setImageBitmap(photo);
             try {
@@ -197,7 +199,51 @@ public class CreateContact extends AppCompatActivity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }*/
+    }
+    //Store Image on Internal Storage
+    private void storeImage(Bitmap image) {
+        File pictureFile = getOutputMediaFile();
+        if (pictureFile == null) {
+            Log.d(TAG,
+                    "Error creating media file, check storage permissions: ");// e.getMessage());
+            return;
         }
-    }*/
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 90, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d(TAG, "Error accessing file: " + e.getMessage());
+        }
+    }
+    /** Create a File for saving an image or video */
+    private  File getOutputMediaFile(){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+        File mediaFile;
+        String mImageName="MI_"+ timeStamp +".jpg";
+        pictureFilePath = mediaStorageDir.getPath() + File.separator + mImageName;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
 
 }
