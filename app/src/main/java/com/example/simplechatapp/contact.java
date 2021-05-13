@@ -9,14 +9,12 @@ public class contact implements Parcelable {
     String imgPath;
 
     public String getImagePath() {
-        return imagePath;
+        return imgPath;
     }
 
     public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+        this.imgPath = imagePath;
     }
-
-    String imagePath;
 
     public contact()
     {
@@ -27,7 +25,7 @@ public class contact implements Parcelable {
     {
         this.ID = ID;
         this.lastText = lastText;
-        this.imagePath = imgPath;
+        this.imgPath = imgPath;
     }
 
     public String getID() {
@@ -47,7 +45,7 @@ public class contact implements Parcelable {
     }
 
     public String getImgResource() {
-        return imagePath;
+        return imgPath;
     }
 
     public void setImgResource(String imgResource) {
