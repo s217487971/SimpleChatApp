@@ -28,6 +28,7 @@
             android:layout_weight="3"
             android:clickable="true"
             android:padding="6dp"
+            app:backgroundTint="#00897B"
             app:srcCompat="@android:drawable/ic_menu_camera" />
     </LinearLayout>
 

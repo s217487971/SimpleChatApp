@@ -17,6 +17,13 @@ import android.widget.ArrayAdapter;
 
 import com.example.simplechatapp.ui.main.SectionsPagerAdapter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Chat extends AppCompatActivity {
@@ -27,11 +34,18 @@ public class Chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Bundle bundle = getIntent().getExtras();
-         if(bundle!=null)
+        try {
+            list = ReadListFromFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(bundle!=null && list==null)
         {
             list = bundle.getParcelableArrayList("list");
         }
-        else if(bundle==null )
+        else if(bundle==null && list==null)
         {
             list = new ArrayList<>();
             contact contact1 = new contact("+27783607891","Bye...","drawable://" + R.drawable.maleavatar);
@@ -72,14 +86,11 @@ public class Chat extends AppCompatActivity {
         });
     }
 
-    public ArrayList<contact> ReadListFromFile()
-    {
-        ArrayList<contact> list2 = new ArrayList();
-        return list2;
+    public ArrayList<contact> ReadListFromFile() throws IOException, ClassNotFoundException {
+        ObjectInputStream fileIn = new ObjectInputStream(new FileInputStream("file.dat"));
+        list = (ArrayList) fileIn.readObject();
+        fileIn.close();
+        return  list;
     }
 
-    public void WriteListToFile(ArrayList<contact> list)
-    {
-
-    }
 }

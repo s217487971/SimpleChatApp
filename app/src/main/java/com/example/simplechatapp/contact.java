@@ -3,7 +3,9 @@ package com.example.simplechatapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class contact implements Parcelable {
+import java.io.Serializable;
+
+public class contact implements Parcelable, Serializable {
     String ID;
     String lastText;
     String imgPath;

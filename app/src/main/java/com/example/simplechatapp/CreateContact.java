@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 //import android.net.*;
 
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +53,9 @@ public class CreateContact extends AppCompatActivity {
     private static final String TAG = "CapturePicture";
     static final int REQUEST_PICTURE_CAPTURE = 1;
     private ImageView image;
-    private String pictureFilePath = "drawable://" + R.drawable.maleavatar;
+    private String pictureFilePath = "drawable://" + R.drawable.female;
+    File ListFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class CreateContact extends AppCompatActivity {
         list = data.getParcelableArrayList("list");
 
         imageView = findViewById(R.id.imageView2);
+        imageView.setImageResource(R.drawable.female);
         TextView textView = findViewById(R.id.textView);
         TextView textView1 = findViewById(R.id.textView1);
         nameInput = findViewById(R.id.editText);
@@ -82,6 +86,11 @@ public class CreateContact extends AppCompatActivity {
                 String number = numbertext.getText().toString();
                 contact contact2 = new contact(name,number,pictureFilePath);
                 list.add(contact2);
+                try {
+                    WriteListToFile(list);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 intent.putExtra("list",list);
                 startActivity(intent);
             }
@@ -244,6 +253,40 @@ public class CreateContact extends AppCompatActivity {
         pictureFilePath = mediaStorageDir.getPath() + File.separator + mImageName;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
         return mediaFile;
+    }
+    public void WriteListToFile(ArrayList<contact> list) throws IOException {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return;
+            }
+        }
+        // Create a media file name
+        //String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+        File ListFile;
+        String ListFileName="file.dat";
+        pictureFilePath = mediaStorageDir.getPath() + File.separator + ListFileName;
+        ListFile = new File(mediaStorageDir.getPath() + File.separator + ListFileName);
+
+        ObjectOutputStream fileOut = new ObjectOutputStream(new FileOutputStream("file"));
+        try {
+            fileOut.writeObject(ListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
