@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +18,17 @@ import android.widget.ArrayAdapter;
 
 import com.example.simplechatapp.ui.main.SectionsPagerAdapter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Chat extends AppCompatActivity {
 
@@ -49,7 +53,7 @@ public class Chat extends AppCompatActivity {
         {
             list = new ArrayList<>();
             contact contact1 = new contact("+27783607891","Bye...","drawable://" + R.drawable.maleavatar);
-            contact contact2 = new contact("+27744807891","See ya...","");
+            contact contact2 = new contact("+27744807891","See ya...","drawable://"+R.drawable.female);
             contact contact3 = new contact("+27867207891","Cheers...","drawable://" + R.drawable.maleavatar);
             contact contact4 = new contact("+27617757891","Later...","drawable://" + R.drawable.female);
             contact contact5 = new contact("+27844787891","Awe...","drawable://" + R.drawable.female);
@@ -87,10 +91,62 @@ public class Chat extends AppCompatActivity {
     }
 
     public ArrayList<contact> ReadListFromFile() throws IOException, ClassNotFoundException {
-        ObjectInputStream fileIn = new ObjectInputStream(new FileInputStream("file.dat"));
-        list = (ArrayList) fileIn.readObject();
-        fileIn.close();
-        return  list;
-    }
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        File ListFile;
+        String ListFileName="file.txt";
+        String pictureFilePath;
+        pictureFilePath = mediaStorageDir.getPath() + File.separator + ListFileName;
+        ListFile = new File(mediaStorageDir.getPath() + File.separator + ListFileName);
+        //list = (ArrayList) fileIn.readObject()  ileOut.writeChars(x.ID+";"+x.lastText+";"+x.imgPath);
 
+        if(ListFile.exists()) {
+            list = new ArrayList<contact>();
+            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new FileReader(ListFile));
+                String line = reader.readLine();
+                while (line != null) {
+                    //System.out.println(line);
+                    // read next line
+                    String string = line;
+                    String[] parts = string.split(";");
+                    String ID = parts[0]; // Phone Number
+                    String lastText = parts[1]; // Name
+                    String imgPath = parts[2]; // Picture
+                    contact contact2 = new contact(ID,lastText,imgPath);
+                    list.add(contact2);
+                    line = reader.readLine();
+                }
+                reader.close();
+                return list;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            }
+
+            /**while (fileIn.readLine()!=null)
+            {
+
+            }
+            fileIn.close();
+            return list;
+        }*/return null;
+    }
+/**
+ *                      String string = scanner.nextLine();
+ *  *                     String[] parts = string.split(";");
+ *  *                     String ID = parts[0]; // Phone Number
+ *  *                     String lastText = parts[1]; // Name
+ *  *                     String imgPath = parts[2]; // Picture
+ *  *                     contact contact2 = new contact(ID,lastText,imgPath);
+ *  *                     list.add(contact2);
+ */
 }

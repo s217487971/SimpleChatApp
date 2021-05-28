@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +36,12 @@ public class FragmentView extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         final Context context = getContext();
         /**contact contact1 = new contact("+27783607891","Bye...",R.drawable.female);
-        contact contact2 = new contact("+27744807891","See ya...",R.drawable.maleavatar);
+         @Override
+         public void onClick(final View view) {
+         int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+         String item = mList.get(itemPosition);
+         Toast.makeText(mContext, item, Toast.LENGTH_LONG).show();
+         }
         contact contact3 = new contact("+27867207891","Cheers...",R.drawable.maleavatar);
         contact contact4 = new contact("+27617757891","Later...",R.drawable.female);
         contact contact5 = new contact("+27844787891","Awe...",R.drawable.female);
@@ -54,7 +60,14 @@ public class FragmentView extends Fragment {
         list.add(contact8);
         list.add(contact9);
         list.add(contact10);*/
-
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int itemPosition = recyclerView.getChildLayoutPosition(view);
+                contact item = list.get(itemPosition);
+                Toast.makeText(context, item.getID(), Toast.LENGTH_LONG).show();
+            }
+        });
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -70,6 +83,7 @@ public class FragmentView extends Fragment {
 
         return view;
     }
+
     public ArrayList getList()
     {
         return list;

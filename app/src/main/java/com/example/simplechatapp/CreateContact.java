@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +36,7 @@ import java.io.IOException;
 //import android.net.*;
 
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -272,21 +274,19 @@ public class CreateContact extends AppCompatActivity {
         // Create a media file name
         //String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
         File ListFile;
-        String ListFileName="file.dat";
+        String ListFileName="file.txt";
         pictureFilePath = mediaStorageDir.getPath() + File.separator + ListFileName;
         ListFile = new File(mediaStorageDir.getPath() + File.separator + ListFileName);
 
-        ObjectOutputStream fileOut = new ObjectOutputStream(new FileOutputStream("file"));
-        try {
-            fileOut.writeObject(ListFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Save the list file
+        FileOutputStream fos = new FileOutputStream(ListFile);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        for (contact contact2:list
+             ) {
+            bw.write(contact2.ID+";"+contact2.lastText+";"+contact2.imgPath);
+            bw.newLine();
         }
-        try {
-            fileOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bw.close();
     }
 
 }
