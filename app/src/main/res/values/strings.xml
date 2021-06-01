@@ -6,4 +6,15 @@
     <string name="buttonSave">Save</string>
     <string name="title_activity_chat">Chat</string>
     <string name="button">Save</string>
+    <string name="textView4">Phone (+27)</string>
+    <string name="textView5">784669999</string>
+    <string name="Button">Confirm</string>
+    <string name="description">Simple Chat App Logo</string>
+    <string name="timeleft">1:00</string>
+    <string name="Resend">Resend</string>
+    <string name="OTP">OTP Pin</string>
+    <string name="OTPValue">4 Digit Pin</string>
+    <string name="confirmScreen">Confirm Phone Number</string>
+    <string name="empty"></string>
+    <string name="name">Name</string>
 </resources>

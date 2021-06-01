@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 public class conversation extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
+    private contact contact2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +16,11 @@ public class conversation extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null)
         {
-            contact contact2 = bundle.getParcelable("contact2");
+            contact2 = bundle.getParcelable("contact");
+        }
+        if(contact2!=null)
+        {
+
         }
 
     }

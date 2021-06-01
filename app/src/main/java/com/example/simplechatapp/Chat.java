@@ -33,6 +33,7 @@ import java.util.Scanner;
 public class Chat extends AppCompatActivity {
 
     ArrayList<contact> list;
+    contact user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class Chat extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         try {
             list = ReadListFromFile();
+            user = ReadUserFromFile();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -48,6 +50,7 @@ public class Chat extends AppCompatActivity {
         if(bundle!=null && list==null)
         {
             list = bundle.getParcelableArrayList("list");
+            user = bundle.getParcelable("user");
         }
         else if(bundle==null && list==null)
         {
@@ -90,6 +93,46 @@ public class Chat extends AppCompatActivity {
         });
     }
 
+    public contact ReadUserFromFile()
+    {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getApplicationContext().getPackageName()
+                + "/Files");
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        File ListFile;
+        String ListFileName="user.txt";
+        String pictureFilePath;
+        pictureFilePath = mediaStorageDir.getPath() + File.separator + ListFileName;
+        ListFile = new File(mediaStorageDir.getPath() + File.separator + ListFileName);
+        //list = (ArrayList) fileIn.readObject()  ileOut.writeChars(x.ID+";"+x.lastText+";"+x.imgPath);
+
+        if(ListFile.exists()) {
+            BufferedReader reader;
+            contact contact2 = new contact("","","");
+            try {
+                reader = new BufferedReader(new FileReader(ListFile));
+                String line = reader.readLine();
+                if (line != null) {
+                    String string = line;
+                    String[] parts = string.split(";");
+                    String ID = parts[0]; // Phone Number
+                    String lastText = parts[1]; // Name
+                    String imgPath = parts[2]; // Picture
+                    contact2 = new contact(ID,lastText,imgPath);
+                }
+                reader.close();
+                return contact2;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
     public ArrayList<contact> ReadListFromFile() throws IOException, ClassNotFoundException {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -131,22 +174,6 @@ public class Chat extends AppCompatActivity {
                 e.printStackTrace();
             }
             }
-
-            /**while (fileIn.readLine()!=null)
-            {
-
-            }
-            fileIn.close();
-            return list;
-        }*/return null;
+        return null;
     }
-/**
- *                      String string = scanner.nextLine();
- *  *                     String[] parts = string.split(";");
- *  *                     String ID = parts[0]; // Phone Number
- *  *                     String lastText = parts[1]; // Name
- *  *                     String imgPath = parts[2]; // Picture
- *  *                     contact contact2 = new contact(ID,lastText,imgPath);
- *  *                     list.add(contact2);
- */
 }

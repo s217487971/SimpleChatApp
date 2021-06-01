@@ -1,7 +1,9 @@
 package com.example.simplechatapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +68,8 @@ public class FragmentView extends Fragment {
                 int itemPosition = recyclerView.getChildLayoutPosition(view);
                 contact item = list.get(itemPosition);
                 Toast.makeText(context, item.getID(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context,conversation.class);
+                intent.putExtra("contact", (Parcelable) item);
             }
         });
         new Thread(new Runnable() {
