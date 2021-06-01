@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:contentDescription="@string/description"
             tools:srcCompat="@tools:sample/avatars" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,7 +30,8 @@
             android:clickable="true"
             android:padding="6dp"
             app:backgroundTint="#00897B"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            android:focusable="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/editText"
@@ -51,8 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="@string/name"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/number" />
 
         <EditText
             android:id="@+id/editText2"
@@ -73,8 +76,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="@string/textView5"
+            android:importantForAutofill="no"
             android:inputType="phone"
-            android:text="Name" />
+            android:text="@string/empty" />
     </LinearLayout>
 
     <Button

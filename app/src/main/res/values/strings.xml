@@ -17,4 +17,7 @@
     <string name="confirmScreen">Confirm Phone Number</string>
     <string name="empty"></string>
     <string name="name">Name</string>
+    <string name="textview">TextView</string>
+    <string name="number">Number</string>
+    <string name="todo">TODO</string>
 </resources>
