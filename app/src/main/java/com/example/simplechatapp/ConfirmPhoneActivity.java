@@ -17,6 +17,7 @@ public class ConfirmPhoneActivity extends AppCompatActivity {
 
     private int OPT;
     private String CellURI;
+    private boolean timerDone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,8 @@ public class ConfirmPhoneActivity extends AppCompatActivity {
                 }
             }
         });
-        final Button resendOTP = findViewById(R.id.button2);
+        Button resendOTP = findViewById(R.id.button2);
+
         Button confirm = findViewById(R.id.button3);
         resendOTP.setClickable(false);
         CountDownTimer cTimer = null;
@@ -64,7 +66,7 @@ public class ConfirmPhoneActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                resendOTP.setClickable(true);
+                timerDone = true;
             }
         };
         cTimer.start();
@@ -78,6 +80,15 @@ public class ConfirmPhoneActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),Chat.class);
                 
+            }
+        });
+        resendOTP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(timerDone)
+                {
+
+                }
             }
         });
 

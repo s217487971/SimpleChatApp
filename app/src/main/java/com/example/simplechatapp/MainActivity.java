@@ -1,5 +1,6 @@
 package com.example.simplechatapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,11 +19,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.AllPermission;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int MY_CAMERA_PERMISSION_CODE = 110;
+    private static final int Read_Storage = 231;
     private contact contact2;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -32,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.welcomescreen2);
         try {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED )
+            if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED )
             {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS}, MY_CAMERA_PERMISSION_CODE);
+                requestPermissions(new String[]{ Manifest.permission.INTERNET}, Read_Storage);
             }
             else{
                 contact2 = ReadContactFromFile();
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     startActivity(intent);
                 }
-            }, 2000);
+            }, 7000);
         }
         else if(contact2!=null){
             final Intent intent = new Intent(this, Chat.class);
@@ -107,5 +109,8 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
