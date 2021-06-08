@@ -1,6 +1,10 @@
 package com.example.simplechatapp;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.simplechatapp.ui.main.SectionsPagerAdapter;
 
@@ -33,7 +40,8 @@ import java.util.Scanner;
 public class Chat extends AppCompatActivity {
 
     ArrayList<contact> list;
-    contact user;
+    Dialog dialog;
+   // contact user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +49,7 @@ public class Chat extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         try {
             list = ReadListFromFile();
-            user = ReadUserFromFile();
+           // user = ReadUserFromFile();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -50,9 +58,9 @@ public class Chat extends AppCompatActivity {
         if(bundle!=null && list==null)
         {
             list = bundle.getParcelableArrayList("list");
-            user = bundle.getParcelable("user");
+            //user = bundle.getParcelable("user");
         }
-        else if(bundle==null && list==null)
+         if( list==null)
         {
             list = new ArrayList<>();
             contact contact1 = new contact("+27783607891","Bye...","drawable://" + R.drawable.maleavatar);
@@ -176,4 +184,6 @@ public class Chat extends AppCompatActivity {
             }
         return null;
     }
+
+
 }

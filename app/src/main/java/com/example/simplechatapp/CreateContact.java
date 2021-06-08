@@ -3,6 +3,7 @@ package com.example.simplechatapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
@@ -18,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +50,8 @@ public class CreateContact extends AppCompatActivity {
     ImageView imageView;
     int MY_CAMERA_PERMISSION_CODE = 110;
     int CAMERA_REQUEST=111;
+    int STORAGE_READ = 322;
+    int STORAGE_WRITE = 131;
     EditText numbertext;
     EditText nameInput;
     Button SaveButton;
@@ -78,7 +83,26 @@ public class CreateContact extends AppCompatActivity {
         nameInput.setText("");
         numbertext.setText("");
         nameInput.setHint("e.g (Luke, Maria, e.t.c)");
-        numbertext.setHint("e.g (+27)76 xxx xxxx");
+        numbertext.setHint("e.g (076) xxx xxxx");
+        numbertext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()==1 && !(s.toString().equals("0")))
+                {
+                    numbertext.setText("");
+                    numbertext.setError("Phone Number Starts with 0");
+                }
+                else if(s.toString().length()>10) {
+                    numbertext.setError("It allows only 9 Digits");
+                }else{
+                    numbertext.setError(null);
+                }
+            }
+        });
         SaveButton = findViewById(R.id.buttonSave);
         final Intent intent = new Intent(this, Chat.class);
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -103,7 +127,8 @@ public class CreateContact extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED )
                 {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_CAMERA_PERMISSION_CODE);
+                    requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_CAMERA_PERMISSION_CODE);
+
                 }
                 else
                 {
@@ -118,6 +143,8 @@ public class CreateContact extends AppCompatActivity {
         FloatingActionButton capture = findViewById(R.id.floatingActionButton);
         capture.setOnClickListener(onClickListener1);
         SaveButton.setOnClickListener(onClickListener);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_READ);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_WRITE);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
@@ -148,28 +175,28 @@ public class CreateContact extends AppCompatActivity {
     }
     private void sendTakePictureIntent() {
 
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra( MediaStore.EXTRA_FINISH_ON_COMPLETION, true);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, REQUEST_PICTURE_CAPTURE);
-
-            File pictureFile = null;
-            try {
-                pictureFile = getPictureFile();
-            } catch (IOException ex) {
-                Toast.makeText(this,
-                        "Photo file can't be created, please try again",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (pictureFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.simplechatapp.android.fileprovider",
-                        pictureFile);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra( MediaStore.EXTRA_FINISH_ON_COMPLETION, true);
+            if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(cameraIntent, REQUEST_PICTURE_CAPTURE);
+
+                File pictureFile = null;
+                try {
+                    pictureFile = getPictureFile();
+                } catch (IOException ex) {
+                    Toast.makeText(this,
+                            "Photo file can't be created, please try again",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (pictureFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.simplechatapp.android.fileprovider",
+                            pictureFile);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(cameraIntent, REQUEST_PICTURE_CAPTURE);
+                }
             }
-        }
     }
 
     private void addToGallery() {

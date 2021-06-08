@@ -62,7 +62,7 @@ public class FragmentView extends Fragment {
         list.add(contact8);
         list.add(contact9);
         list.add(contact10);*/
-        recyclerView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int itemPosition = recyclerView.getChildLayoutPosition(view);
@@ -71,7 +71,8 @@ public class FragmentView extends Fragment {
                 Intent intent = new Intent(context,conversation.class);
                 intent.putExtra("contact", (Parcelable) item);
             }
-        });
+        };
+        recyclerView.setOnClickListener(onClickListener);
         new Thread(new Runnable() {
             @Override
             public void run() {

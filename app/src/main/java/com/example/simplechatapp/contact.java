@@ -6,9 +6,10 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 public class contact implements Parcelable, Serializable {
-    String ID;
-    String lastText;
-    String imgPath;
+    String ID; //Name
+    String lastText; //Number
+    String imgPath; //Profile Picture Saved During Contact Saving
+    String Number;
 
     public String getImagePath() {
         return imgPath;
@@ -28,6 +29,19 @@ public class contact implements Parcelable, Serializable {
         this.ID = ID;
         this.lastText = lastText;
         this.imgPath = imgPath;
+
+        if(ID.equals(""))
+        {
+            ID = lastText;
+        }
+        char[] chars = ID.toCharArray();
+        StringBuilder sb = new StringBuilder();
+            // checks whether the character is not a letter
+            // if it is not a letter ,it will return false
+            if ((Character.isDigit(chars[0]))) {
+                Number = lastText;
+            }
+
     }
 
     public String getID() {

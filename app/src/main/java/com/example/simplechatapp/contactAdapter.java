@@ -1,15 +1,21 @@
 package com.example.simplechatapp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,16 +91,35 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
         TextView lblID;
         TextView lblLastText;
         ImageView imageTemp;
+        Dialog dialog;
 
         public contactViewHolder(@NonNull View itemView) {
             super(itemView);
             lblID = itemView.findViewById(R.id.contactIDtext);
             lblLastText = itemView.findViewById(R.id.contactLastText);
             imageTemp = itemView.findViewById(R.id.imageAvatar);
+
         }
 
         // Set views to current contact's values
-        void setContact(contact contact) {
+        void setContact(final contact contact) {
+            View.OnClickListener OpenPicture = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(contact.getID(),contact.getImagePath());
+                }
+            };
+            View.OnClickListener OpenChats = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,conversation.class);
+                    intent.putExtra("user",(Parcelable)new contact(contact.getID(),contact.lastText,contact.imgPath));
+                    context.startActivity(intent);
+                }
+            };
+            lblID.setOnClickListener(OpenChats);
+            lblLastText.setOnClickListener(OpenChats);
+            imageTemp.setOnClickListener(OpenPicture);
             lblID.setText(contact.getID());
             lblLastText.setText(contact.getLastText());
             // Get the dimensions of the View
@@ -162,6 +187,68 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
             drawable.draw(canvas);
             return bitmap;
         }
+        private void showDialog(String name,String ImageURL) {
+            // custom dialog
+            dialog = new Dialog(context);
+            dialog.setContentView(R.layout.viewprofilepicture);
+
+            // set the custom dialog components - text, image and button
+            ImageButton close = (ImageButton) dialog.findViewById(R.id.imageButtonClose);
+            TextView Name = (TextView) dialog.findViewById(R.id.textView8);
+            ImageView ProfilePicture = (ImageView) dialog.findViewById(R.id.imageView4);
+            Name.setText(name);
+
+            // Get the dimensions of the View
+            int targetW = ProfilePicture.getWidth();
+            int targetH = ProfilePicture.getHeight();
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+
+            BitmapFactory.decodeFile(ImageURL, bmOptions);
+
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            //int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            //bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+            String filePath = ImageURL;
+            File imgFile = new File(filePath);
+            if (imgFile.exists()) {
+                Bitmap icon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                //Drawable d = new BitmapDrawable(getResources(), myBitmap);
+                //Bitmap icon =drawableToBitmap(drawable);
+                ProfilePicture.setImageBitmap(icon);
+            }
+            // Close Button
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    //TODO Close button action
+                }
+            });
+
+            /** Buy Button
+             buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            dialog.dismiss();
+            //TODO Buy button action
+            }
+            });*/
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            dialog.show();
+        }
     }
+
 }
 

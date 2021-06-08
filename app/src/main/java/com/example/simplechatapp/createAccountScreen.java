@@ -61,7 +61,7 @@ public class createAccountScreen extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(s.toString().length()==9)
                 {
-                    cellURI = "0"+s.toString();
+                    cellURI = "+27"+s.toString();
                 }
                 else if(s.toString().length()>9) {
                     phoneNumber.setError("It allows only 9 Digits");
@@ -90,10 +90,10 @@ public class createAccountScreen extends AppCompatActivity {
                     //SmsManager smsManager = SmsManager.getDefault();
                     //smsManager.sendTextMessage(cellURI, null, messageContent, null, null);
                     messageContent = CreateMessageContent(OTP);
-                    CommunicationThread thread = new CommunicationThread(cellURI,messageContent);
-                    thread.start();
-                    Intent intent2 = new Intent(getApplicationContext(), ConfirmPhoneActivity.class);
-                    intent2.putExtra("OTP",OTP);
+                    //CommunicationThread thread = new CommunicationThread(cellURI,messageContent);
+                    //thread.start();
+                    Intent intent2 = new Intent(getApplicationContext(), AccountDetails.class);
+                    intent2.putExtra("CellURI",cellURI);
                     startActivity(intent2);
                 }
             }
