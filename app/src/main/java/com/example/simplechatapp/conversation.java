@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.security.acl.Permission;
 
+import static com.example.simplechatapp.R.layout.custom_toolbar;
+
 public class conversation extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
@@ -22,16 +24,16 @@ public class conversation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-       // getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         //getSupportActionBar().setCustomView(R.layout.custom_toolbar);
-        TextView textView = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_title);
+        TextView textView = findViewById(R.id.toolbar_title);
         //textView.setText("My Custom Title");
-        ImageButton button = getSupportActionBar().getCustomView().findViewById(R.id.imageButton3);
-        //
+        ImageButton button = findViewById(R.id.imageButton3);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null)
         {
-            contact2 = bundle.getParcelable("contact");
+            contact2 = bundle.getParcelable("user");
         }
         if(contact2!=null)
         {
@@ -52,19 +54,5 @@ public class conversation extends AppCompatActivity {
         button.setOnClickListener(MakeACall);
         textView.setOnClickListener(ProfileDetails);
 
-    }
-    protected Toolbar getActionBarToolbar() {
-        if (mActionBarToolbar == null) {
-            //mActionBarToolbar = (Toolbar) findViewById(R.id);
-            if (mActionBarToolbar != null) {
-                setSupportActionBar(mActionBarToolbar);
-            }
-        }
-        return mActionBarToolbar;
-    }
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        getActionBarToolbar();
     }
 }

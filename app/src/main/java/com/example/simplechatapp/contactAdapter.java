@@ -152,7 +152,7 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
             }
             else
             {
-                Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.maleavatar);
+                Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.account);
                 imageTemp.setImageBitmap(icon);
             }
         }
@@ -212,12 +212,16 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
             int photoH = bmOptions.outHeight;
 
             // Determine how much to scale down the image
-            //int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+            //int scaleFactor = Math.max(1, Math.min(photoW*2, photoH*2));
+
+            //Double the Size of the Image and fill the View
+            ProfilePicture.setMinimumWidth(photoW*2);
+            ProfilePicture.setMinimumHeight(photoH*2);
 
             // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            //bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
+           // bmOptions.inJustDecodeBounds = false;
+           // bmOptions.inSampleSize = scaleFactor;
+            //bmOptions.inPurgeable = true;
             String filePath = ImageURL;
             File imgFile = new File(filePath);
             if (imgFile.exists()) {
@@ -226,6 +230,11 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
                 //Bitmap icon =drawableToBitmap(drawable);
                 ProfilePicture.setImageBitmap(icon);
             }
+            else{
+                Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.account);
+                imageTemp.setImageBitmap(icon);
+            }
+
             // Close Button
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
