@@ -19,7 +19,7 @@
             android:layout_weight="2"
             android:contentDescription="@string/description"
             android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@drawable/female" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton2"
@@ -28,9 +28,10 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
             app:backgroundTint="#874DA0"
-            app:srcCompat="@android:drawable/ic_menu_camera"
-            android:focusable="true" />
+            app:srcCompat="@android:drawable/ic_menu_camera" />
     </LinearLayout>
 
     <LinearLayout
@@ -40,20 +41,24 @@
 
         <EditText
             android:id="@+id/editText5"
-            android:layout_width="wrap_content"
+            android:layout_width="106dp"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
             android:ems="10"
             android:hint="@string/name"
             android:importantForAutofill="no"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingLeft="@dimen/appbar_padding"
+            android:paddingTop="12dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
+            android:padding="8dp"
             app:backgroundTint="#43A047"
             app:srcCompat="@android:drawable/ic_menu_send" />
     </LinearLayout>

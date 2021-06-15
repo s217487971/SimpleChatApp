@@ -53,6 +53,7 @@ public class AccountDetails extends AppCompatActivity {
         editText = findViewById(R.id.editText5);
         imageView = findViewById(R.id.imageView5);
         FloatingActionButton donebutton = findViewById(R.id.floatingActionButton3);
+        imageView.setImageResource(R.drawable.female);
         Bundle bundle = getIntent().getExtras();
         FloatingActionButton captureButton = findViewById(R.id.floatingActionButton2);
         if(bundle!=null)
@@ -210,10 +211,9 @@ public class AccountDetails extends AppCompatActivity {
         }
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
-        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
             storeImage(photo);

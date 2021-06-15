@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        /**if(contact2==null)
+        if(contact2==null)
         {
             final Intent intent = new Intent(this, createAccountScreen.class);
             final Handler handler = new Handler();
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 2000);
         }
-        else if(contact2!=null){*/
+        else if(contact2!=null){
             final Intent intent = new Intent(this, Chat.class);
             intent.putExtra("contact", (Parcelable) contact2);
             final Handler handler = new Handler();
@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     startActivity(intent);
                 }
-            }, 2000);
-        //}
+            }, 2000); }
+
 
     }
     public contact ReadContactFromFile() throws IOException, ClassNotFoundException {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         File ListFile;
-        String ListFileName="Contact.txt";
+        String ListFileName="user.txt";
         String pictureFilePath;
         pictureFilePath = mediaStorageDir.getPath() + File.separator + ListFileName;
         ListFile = new File(mediaStorageDir.getPath() + File.separator + ListFileName);
