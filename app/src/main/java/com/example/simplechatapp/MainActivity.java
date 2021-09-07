@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView imageView = findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.welcomescreen2);
+        imageView.setImageResource(R.drawable.nunun);
         try {
             if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED )
             {

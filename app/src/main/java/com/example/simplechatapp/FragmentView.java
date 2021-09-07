@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.example.simplechatapp.ui.chat.conversation;
+
 import java.util.ArrayList;
 
 public class FragmentView extends Fragment {
@@ -68,7 +68,7 @@ public class FragmentView extends Fragment {
                 int itemPosition = recyclerView.getChildLayoutPosition(view);
                 contact item = list.get(itemPosition);
                 Toast.makeText(context, item.getID(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context,conversation.class);
+                Intent intent = new Intent(context, conversation.class);
                 intent.putExtra("contact", (Parcelable) item);
             }
         };

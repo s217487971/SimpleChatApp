@@ -35,19 +35,25 @@ public class contact implements Parcelable, Serializable {
             ID = lastText;
         }
         char[] chars = ID.toCharArray();
+        char[] chars1 = lastText.toCharArray();
         StringBuilder sb = new StringBuilder();
             // checks whether the character is not a letter
             // if it is not a letter ,it will return false
-            if ((Character.isDigit(chars[0]))) {
+            if ((Character.isDigit(chars[1]))) {
+                Number = ID;
+            }
+            else if(Character.isDigit(chars1[2])){
                 Number = lastText;
             }
-
     }
 
     public String getID() {
         return ID;
     }
-
+    public String getNumber()
+    {
+        return Number;
+    }
     public void setID(String ID) {
         this.ID = ID;
     }

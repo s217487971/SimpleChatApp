@@ -11,6 +11,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
         <activity android:name=".AccountDetails"></activity>
         <activity android:name=".ConfirmPhoneActivity" />
         <activity android:name=".createAccountScreen" />
-        <activity android:name=".conversation" />
+        <activity android:name=".ui.chat.conversation" />
         <activity android:name=".ui.main.conversation" />
         <activity android:name=".CreateContact" />
         <activity

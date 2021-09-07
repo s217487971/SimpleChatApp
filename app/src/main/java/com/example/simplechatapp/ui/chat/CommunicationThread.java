@@ -1,4 +1,6 @@
-package com.example.simplechatapp;
+package com.example.simplechatapp.ui.chat;
+
+import com.example.simplechatapp.Displayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.simplechatapp.ui.chat.conversation;
+
 import java.io.File;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
     private final List<contact> contacts; // the list of contacts
     private static Context context = null; // reference to the activity context
     private int curPosition = -1; // current position selected in the list
-    private Object contact;
+    //private Object contact;
 
     // Initialisation
     public contactAdapter(Context context, List<contact> contacts) {
@@ -112,7 +114,7 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
             View.OnClickListener OpenChats = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context,conversation.class);
+                    Intent intent = new Intent(context, conversation.class);
                     intent.putExtra("user",(Parcelable)new contact(contact.getID(),contact.lastText,contact.imgPath));
                     context.startActivity(intent);
                 }
@@ -215,8 +217,8 @@ public class contactAdapter extends RecyclerView.Adapter<contactAdapter.contactV
             //int scaleFactor = Math.max(1, Math.min(photoW*2, photoH*2));
 
             //Double the Size of the Image and fill the View
-            ProfilePicture.setMinimumWidth(photoW*2);
-            ProfilePicture.setMinimumHeight(photoH*2);
+            ProfilePicture.setMinimumWidth(photoW*3);
+            ProfilePicture.setMinimumHeight(photoH*3);
 
             // Decode the image file into a Bitmap sized to fill the View
            // bmOptions.inJustDecodeBounds = false;

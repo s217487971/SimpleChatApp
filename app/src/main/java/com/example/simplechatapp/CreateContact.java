@@ -62,7 +62,7 @@ public class CreateContact extends AppCompatActivity {
     private ImageView image;
     private String pictureFilePath = "drawable://" + R.drawable.female;
     File ListFile;
-
+    String number = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,6 @@ public class CreateContact extends AppCompatActivity {
 
         Bundle data = getIntent().getExtras();
         list = data.getParcelableArrayList("list");
-
         imageView = findViewById(R.id.imageView2);
         imageView.setImageResource(R.drawable.female);
         TextView textView = findViewById(R.id.textView);
@@ -79,11 +78,11 @@ public class CreateContact extends AppCompatActivity {
         nameInput = findViewById(R.id.editText);
         numbertext = findViewById(R.id.editText2);
         textView.setText("Name :");
-        textView1.setText("Number :");
+        //textView1.setText("Number : (+27)");
         nameInput.setText("");
         numbertext.setText("");
         nameInput.setHint("e.g (Luke, Maria, e.t.c)");
-        numbertext.setHint("e.g (076) xxx xxxx");
+        numbertext.setHint("e.g 76 xxx xxxx");
         numbertext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -91,12 +90,12 @@ public class CreateContact extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()==1 && !(s.toString().equals("0")))
+                if(s.toString().length()==9)
                 {
-                    numbertext.setText("");
-                    numbertext.setError("Phone Number Starts with 0");
+                    number = numbertext.getText().toString();
                 }
-                else if(s.toString().length()>10) {
+                else if(s.toString().length()>9) {
+                    numbertext.setText(number);
                     numbertext.setError("It allows only 9 Digits");
                 }else{
                     numbertext.setError(null);
@@ -109,8 +108,7 @@ public class CreateContact extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = nameInput.getText().toString();
-                String number = numbertext.getText().toString();
-                contact contact2 = new contact(name,number,pictureFilePath);
+                contact contact2 = new contact(name,"+27"+number,pictureFilePath);
                 list.add(contact2);
                 try {
                     WriteListToFile(list);
@@ -216,29 +214,28 @@ public class CreateContact extends AppCompatActivity {
         }
     }*/
    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
-        {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
-            storeImage(photo);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+           Bitmap photo = (Bitmap) data.getExtras().get("data");
+           imageView.setImageBitmap(photo);
+           storeImage(photo);
+       }
+       /**if (requestCode == CAMERA_REQUEST) {
+        //Bitmap photo = (Bitmap) data.getExtras().get("data");
+        //imageView.setImageBitmap(photo);
+        try {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
+        imageView.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
         }
-        /**if (requestCode == CAMERA_REQUEST) {
-            //Bitmap photo = (Bitmap) data.getExtras().get("data");
-            //imageView.setImageBitmap(photo);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
-                imageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }*/
-    }
+   }
     //Store Image on Internal Storage
     private void storeImage(Bitmap image) {
         File pictureFile = getOutputMediaFile();
@@ -314,6 +311,14 @@ public class CreateContact extends AppCompatActivity {
             bw.newLine();
         }
         bw.close();
+    }
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent setIntent = new Intent(getApplicationContext(),Chat.class);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
     }
 
 }
